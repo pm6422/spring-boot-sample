@@ -1,4 +1,4 @@
-package com.example.application.services;
+package cn.luixtech.springbootsample.service;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.BrowserCallable;
