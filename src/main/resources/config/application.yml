@@ -1,0 +1,88 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-test.yml if you use the "test" profile.
+# Full reference is available at:
+# https://docs.spring.io/spring-boot/docs/3.2.0/reference/html/application-properties.html#application-properties
+# ===================================================================
+management: # Management http server configuration, used by ManagementServerProperties
+    endpoints:
+        web:
+            base-path: /management
+            exposure:
+                include:
+                - configprops
+                - info
+                - health
+                - metrics
+                - prometheus
+                - luixopenapigroups
+    endpoint:
+        health:
+            enabled: true
+            show-details: always
+        metrics:
+            enabled: true
+        prometheus:
+            enabled: true
+spring:
+    application:
+        name: spring-boot-sample
+    profiles:
+        # The commented value for `active` can be replaced with valid spring profiles to load.
+        # Otherwise, it will be filled in by maven when building the WAR file
+        # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+        active: test
+    web:
+        locale: zh_CN # default locale
+    messages:
+        basename: i18n/messages,i18n/luix-messages
+        fallback-to-system-locale: false
+    banner:
+        location: classpath:config/banner-company.txt
+    mustache:
+        check-template-location: false
+    devtools:
+        restart:
+            additional-exclude: dev/hilla/openapi.json # Workaround for https://github.dev/hilla/issues/842
+server:
+    # It can be overridden by `--server.port` value passed in the commandline or `-Dserver.port` set in `JAVA_OPTS`
+    port: 8020
+vaadin:
+    launch-browser: true # Launch the default browser when starting the application in development mode
+    allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.example.application # To improve the performance during development
+logging:
+    level:
+        root: INFO
+        org.springframework.boot.devtools.autoconfigure: INFO
+        org.apache: WARN
+        org.mongodb.driver: WARN
+        sun.rmi: WARN
+        jdk.event.security: WARN
+        org.atmosphere: warn
+springdoc:
+    api-docs:
+        enabled: true
+    show-actuator: true
+    swagger-ui:
+        tags-sorter: alpha
+# ===================================================================
+# Luix framework specific properties
+# ===================================================================
+luix:
+    api-docs:
+        api-include-pattern: /api/**
+        open-api-include-pattern: /open-api/**
+        management-include-pattern: /management/**
+        api-title: Spring Boot Sample API
+        open-api-title: Spring Boot Sample API
+        management-title: Spring Boot Sample Management API
+        version: 1.0.0
+        terms-of-service-url:
+        contact-name: louis
+        contact-url:
+        contact-email: louis@luixtech.cn
+        contact-mobile: 13800138000
+        license: unlicensed
+        license-url:
