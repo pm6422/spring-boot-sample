@@ -6,7 +6,7 @@ spring:
         restart:
             enabled: true
         livereload:
-            enabled: false # we use Webpack dev server + BrowserSync for livereload
+            enabled: true
 # ===================================================================
 # Application specific properties
 # ===================================================================
