@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableLuixSpringBootFramework
-@Theme(value = "spring-boot-sample")
+//@Theme(value = "spring-boot-sample")
 public class SpringBootSampleApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
