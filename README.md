@@ -29,6 +29,8 @@ Once the JAR file is built, you can run it using
   <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<code>index.html</code></td><td>HTML template</td></tr>
   <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<code>index.ts</code></td><td>Frontend 
 entrypoint, bootstraps a React application</td></tr>
+  <tr><td><code>src/main/java/cn.luixtech.springbootsample/</code></td><td>Server-side 
+source directory, contains the server-side Java views</td></tr>
   <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<code>SpringBootSampleApplication.java</code></td><td>Server entry-point</td></tr>
 </table>
 
