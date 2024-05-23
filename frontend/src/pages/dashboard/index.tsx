@@ -35,7 +35,7 @@ export default function Dashboard() {
             Dashboard
           </h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            {/*<Button>Download</Button>*/}
           </div>
         </div>
         <Tabs
