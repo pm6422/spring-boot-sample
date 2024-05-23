@@ -1,6 +1,6 @@
 # Spring Boot Sample
 
-This project can be used as a starting point to create frontend project with Spring Boot.
+This project can be used as a starting point to create full-stack web app.
 
 ## Running the application
 
