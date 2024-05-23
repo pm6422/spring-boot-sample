@@ -20,9 +20,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
-import { cn } from '@/lib/utils'
-import useCheckActiveNav from '@/hooks/use-check-active-nav'
-import { SideLink } from '@/data/sidelinks'
+import { cn } from 'Frontend/src/lib/utils'
+import useCheckActiveNav from 'Frontend/src/hooks/use-check-active-nav'
+import { SideLink } from 'Frontend/src/data/sidelinks'
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean

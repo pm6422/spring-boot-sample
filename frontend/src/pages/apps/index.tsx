@@ -4,20 +4,20 @@ import {
   IconSortAscendingLetters,
   IconSortDescendingLetters,
 } from '@tabler/icons-react'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Input } from '@/components/ui/input'
+import { Layout, LayoutBody, LayoutHeader } from 'Frontend/src/components/custom/layout'
+import { Input } from 'Frontend/src/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Separator } from '@/components/ui/separator'
-import { Search } from '@/components/search'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
-import { Button } from '@/components/custom/button'
+} from 'Frontend/src/components/ui/select'
+import { Separator } from 'Frontend/src/components/ui/separator'
+import { Search } from 'Frontend/src/components/search'
+import ThemeSwitch from 'Frontend/src/components/theme-switch'
+import { UserNav } from 'Frontend/src/components/user-nav'
+import { Button } from 'Frontend/src/components/custom/button'
 import { apps } from './data'
 
 const appText = new Map<string, string>([

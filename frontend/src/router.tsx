@@ -54,37 +54,37 @@ const router = createBrowserRouter([
       {
         path: 'tasks',
         lazy: async () => ({
-          Component: (await import('@/pages/tasks')).default,
+          Component: (await import('Frontend/src/pages/tasks')).default,
         }),
       },
       {
         path: 'chats',
         lazy: async () => ({
-          Component: (await import('@/components/coming-soon')).default,
+          Component: (await import('Frontend/src/components/coming-soon')).default,
         }),
       },
       {
         path: 'apps',
         lazy: async () => ({
-          Component: (await import('@/pages/apps')).default,
+          Component: (await import('Frontend/src/pages/apps')).default,
         }),
       },
       {
         path: 'users',
         lazy: async () => ({
-          Component: (await import('@/components/coming-soon')).default,
+          Component: (await import('Frontend/src/components/coming-soon')).default,
         }),
       },
       {
         path: 'analysis',
         lazy: async () => ({
-          Component: (await import('@/components/coming-soon')).default,
+          Component: (await import('Frontend/src/components/coming-soon')).default,
         }),
       },
       {
         path: 'extra-components',
         lazy: async () => ({
-          Component: (await import('@/pages/extra-components')).default,
+          Component: (await import('Frontend/src/pages/extra-components')).default,
         }),
       },
       {

@@ -10,12 +10,7 @@ const customConfig: UserConfigFn = (env) => ({
     reactSwc({
       tsDecorators: true,
     }),
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './frontend/src'),
-    },
-  },
+  ]
 });
 
 export default overrideVaadinConfig(customConfig);

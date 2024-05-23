@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { Button } from '@/components/custom/button'
+import { Button } from 'Frontend/src/components/custom/button'
 import {
   Form,
   FormControl,
@@ -10,18 +10,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from 'Frontend/src/components/ui/form'
+import { Input } from 'Frontend/src/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { toast } from '@/components/ui/use-toast'
-import { cn } from '@/lib/utils'
+} from 'Frontend/src/components/ui/select'
+import { Textarea } from 'Frontend/src/components/ui/textarea'
+import { toast } from 'Frontend/src/components/ui/use-toast'
+import { cn } from 'Frontend/src/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const profileFormSchema = z.object({

@@ -3,8 +3,8 @@ import { IconChevronsLeft, IconMenu2, IconX } from '@tabler/icons-react'
 import { Layout, LayoutHeader } from './custom/layout'
 import { Button } from './custom/button'
 import Nav from './nav'
-import { cn } from '@/lib/utils'
-import { sidelinks } from '@/data/sidelinks'
+import { cn } from 'Frontend/src/lib/utils'
+import { sidelinks } from 'Frontend/src/data/sidelinks'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean

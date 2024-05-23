@@ -1,11 +1,11 @@
-import { cn } from '@/lib/utils'
+import { cn } from 'Frontend/src/lib/utils'
 import { Link } from 'react-router-dom'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from 'Frontend/src/components/ui/dropdown-menu'
 import { Button } from './custom/button'
 import { IconMenu } from '@tabler/icons-react'
 

@@ -1,9 +1,9 @@
 import { HTMLAttributes, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from 'Frontend/src/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Button } from '@/components/custom/button'
+import { Button } from 'Frontend/src/components/custom/button'
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from 'Frontend/src/components/ui/form'
+import { Input } from 'Frontend/src/components/ui/input'
 
 interface ForgotFormProps extends HTMLAttributes<HTMLDivElement> {}
 

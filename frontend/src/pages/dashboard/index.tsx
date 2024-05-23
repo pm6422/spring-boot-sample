@@ -1,17 +1,17 @@
-import { Button } from '@/components/custom/button'
+import { Button } from 'Frontend/src/components/custom/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Search } from '@/components/search'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/theme-switch'
-import { TopNav } from '@/components/top-nav'
-import { UserNav } from '@/components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
+} from 'Frontend/src/components/ui/card'
+import { Search } from 'Frontend/src/components/search'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'Frontend/src/components/ui/tabs'
+import ThemeSwitch from 'Frontend/src/components/theme-switch'
+import { TopNav } from 'Frontend/src/components/top-nav'
+import { UserNav } from 'Frontend/src/components/user-nav'
+import { Layout, LayoutBody, LayoutHeader } from 'Frontend/src/components/custom/layout'
 import { RecentSales } from './components/recent-sales'
 import { Overview } from './components/overview'
 

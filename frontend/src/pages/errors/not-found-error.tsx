@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/custom/button'
+import { Button } from 'Frontend/src/components/custom/button'
 
 export default function NotFoundError() {
   const navigate = useNavigate()

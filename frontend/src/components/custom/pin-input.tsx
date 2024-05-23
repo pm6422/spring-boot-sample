@@ -1,36 +1,50 @@
 import * as React from 'react'
-import { cn } from '@/lib/utils'
+import { Input } from 'Frontend/src/components/ui/input'
+import { cn } from 'Frontend/src/lib/utils'
 
-interface PinInputProps {
-  children:
-    | React.ReactElement<typeof PinInputField>
-    | React.ReactElement<typeof PinInputField>[]
+interface PinInputOgProps {
   /**
-   * className for the input container
+   * id for input fields.
+   */
+  id?: string
+  /**
+   * Class name for input fields.
    */
   className?: string
   /**
-   * `aria-label` for the input fields
+   * Class name for input fields container, `flex gap-2` by default
    */
-  ariaLabel?: string
+  containerClassName?: string
   /**
-   * If set, the pin input receives focus on mount, `false` by default
+   * Uncontrolled pin input default value.
    */
-  autoFocus?: boolean
+  defaultValue?: string
+  /**
+   * Controlled pin input value.
+   */
+  value?: string
   /**
    * Called when value changes
    */
   onChange?: (value: string) => void
   /**
-   * Called when all inputs have valid value
+   * Called when all input have valid value
    */
   onComplete?: (value: string) => void
   /**
-   * Called when any input doesn't have value
+   * The type of value pin input should allow, `alphanumeric` by default
    */
-  onIncomplete?: (value: string) => void
+  type?: 'numeric' | 'alphanumeric'
   /**
-   * `name` attribute for input fields
+   * Placeholder for input fields, `○` by default
+   */
+  placeholder?: string
+  /**
+   * Number of pin input fields, `4` by default
+   */
+  length?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 // 4 by default
+  /**
+   * `name` attribute for hidden input
    */
   name?: string
   /**
@@ -47,205 +61,136 @@ interface PinInputProps {
    */
   otp?: boolean
   /**
-   * Uncontrolled pin input default value.
+   * If set, the input fields are disabled, `false` by default
    */
-  defaultValue?: string
-  /**
-   * Controlled pin input value.
-   */
-  value?: string
-  /**
-   * The type of value pin input should allow, `alphanumeric` by default
-   */
-  type?: 'numeric' | 'alphanumeric'
-  /**
-   * Placeholder for input fields, `○` by default
-   */
-  placeholder?: string
+  disabled?: boolean
   /**
    * If set, the user cannot set the value, `false` by default
    */
   readOnly?: boolean
   /**
-   * If set, the input fields are disabled, `false` by default
+   * If set, the pin input receives focus on mount, `false` by default
    */
-  disabled?: boolean
+  autoFocus?: boolean
+  /**
+   * `aria-label` for the input fields
+   */
+  ariaLabel?: string
 }
 
-const PinInputContext = React.createContext<boolean>(false)
+const PinInputOg = ({
+  containerClassName,
+  id,
+  className,
+  type = 'alphanumeric',
+  placeholder = '○',
+  length = 4,
+  name,
+  form,
+  defaultValue,
+  value,
+  onChange,
+  onComplete,
+  mask = false,
+  otp = false,
+  disabled = false,
+  readOnly = false,
+  autoFocus = false,
+  ariaLabel,
+}: PinInputOgProps) => {
+  if (length < 1 || length > 12) {
+    throw new Error('input length cannot be more than 12 or less than 1')
+  }
 
-const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
-  ({ className, children, ...props }, ref) => {
-    const {
-      defaultValue,
-      value,
-      onChange,
-      onComplete,
-      onIncomplete,
-      placeholder = '○',
-      type = 'alphanumeric',
-      name,
-      form,
-      otp = false,
-      mask = false,
-      disabled = false,
-      readOnly = false,
-      autoFocus = false,
-      ariaLabel = '',
-      ...rest
-    } = props
+  if ((value !== undefined && !onChange) || (value === undefined && onChange)) {
+    throw new Error(
+      'if one of value or onChange is specified, both props must be set.'
+    )
+  }
 
-    const validChildren = getValidChildren(children)
+  const { pins, pinValue, refMap, ...handlers } = usePinInput({
+    value,
+    defaultValue,
+    placeholder,
+    type,
+    length,
+    readOnly,
+  })
 
-    const length = getInputFieldCount(children)
+  /* call onChange func if pinValue changes */
+  React.useEffect(() => {
+    onChange && onChange(pinValue)
+  }, [onChange, pinValue])
 
-    // pins, pinValue, refMap, ...handlers
-    const { pins, pinValue, refMap, ...handlers } = usePinInput({
-      value,
-      defaultValue,
-      placeholder,
-      type,
-      length,
-      readOnly,
-    })
+  /* call onComplete func if pinValue is valid and completed */
+  React.useEffect(() => {
+    if (onComplete && pinValue.length === length) {
+      onComplete(pinValue)
+    }
+  }, [length, onComplete, pinValue])
 
-    /* call onChange func if pinValue changes */
-    React.useEffect(() => {
-      onChange && onChange(pinValue)
-    }, [onChange, pinValue])
+  /* focus on first input field if autoFocus is set */
+  React.useEffect(() => {
+    if (!autoFocus) return
+    const node = refMap?.get(0)
+    if (node) {
+      node.focus()
+    }
+  }, [autoFocus, refMap])
 
-    /* call onComplete func if pinValue is valid and completed */
-    React.useEffect(() => {
-      if (onComplete && pinValue.length === length) {
-        onComplete(pinValue)
-      }
-      if (onIncomplete && pinValue.length !== length) {
-        onIncomplete(pinValue)
-      }
-    }, [length, onComplete, onIncomplete, pinValue])
-
-    /* focus on first input field if autoFocus is set */
-    React.useEffect(() => {
-      if (!autoFocus) return
-      const node = refMap?.get(0)
-      if (node) {
-        node.focus()
-      }
-    }, [autoFocus, refMap])
-
-    const skipRef = React.useRef(0)
-    let counter = 0
-    const clones = validChildren.map((child) => {
-      if (child.type === PinInputField) {
-        const pinIndex = counter
-        counter = counter + 1
-        return React.cloneElement(child, {
-          name,
-          inputKey: `input-${pinIndex}`,
-          value: length > pinIndex ? pins[pinIndex] : '',
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-            handlers.handleChange(e, pinIndex),
-          onFocus: (e: React.FocusEvent<HTMLInputElement>) =>
-            handlers.handleFocus(e, pinIndex),
-          onBlur: () => handlers.handleBlur(pinIndex),
-          onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
-            handlers.handleKeyDown(e, pinIndex),
-          onPaste: (e: React.ClipboardEvent<HTMLInputElement>) =>
-            handlers.handlePaste(e),
-          placeholder: placeholder,
-          type: type,
-          mask: mask,
-          autoComplete: otp ? 'one-time-code' : 'off',
-          disabled: disabled,
-          readOnly: readOnly,
-          'aria-label': ariaLabel,
-          ref: (node: HTMLInputElement | null) => {
+  return (
+    <div className={cn('flex gap-2', containerClassName)}>
+      {pins.map((pin, i) => (
+        <PinInputField
+          key={i}
+          id={i === 0 ? id : undefined}
+          defaultValue={pin}
+          onChange={(e) => handlers.handleChange(e, i)}
+          onFocus={(e) => handlers.handleFocus(e, i)}
+          onBlur={() => handlers.handleBlur(i)}
+          onKeyDown={(e) => handlers.handleKeyDown(e, i)}
+          onPaste={handlers.handlePaste}
+          placeholder={placeholder}
+          className={className}
+          type={type}
+          mask={mask}
+          autoComplete={otp ? 'one-time-code' : 'off'}
+          disabled={disabled}
+          readOnly={readOnly}
+          aria-label={ariaLabel}
+          ref={(node) => {
             if (node) {
-              refMap?.set(pinIndex, node)
+              refMap?.set(i, node)
             } else {
-              refMap?.delete(pinIndex)
+              refMap?.delete(i)
             }
-          },
-        })
-      }
-      skipRef.current = skipRef.current + 1
-      return child
-    })
+          }}
+        />
+      ))}
+      <input type='hidden' name={name} form={form} value={pinValue} />
+    </div>
+  )
+}
+PinInputOg.displayName = 'PinInputOg'
 
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  mask?: boolean
+}
+
+const PinInputField = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, mask, ...props }, ref) => {
+    const inputType = mask ? 'password' : type === 'numeric' ? 'tel' : 'text'
     return (
-      <PinInputContext.Provider value={true}>
-        <div ref={ref} aria-label='Pin Input' className={className} {...rest}>
-          {clones}
-          <input type='hidden' name={name} form={form} value={pinValue} />
-        </div>
-      </PinInputContext.Provider>
+      <Input
+        ref={ref}
+        type={inputType}
+        inputMode={type === 'numeric' ? 'numeric' : 'text'}
+        className={cn('size-10 text-center', className)}
+        {...props}
+      />
     )
   }
 )
-PinInput.displayName = 'PinInput'
-
-/* ========== PinInputField ========== */
-
-interface _PinInputFieldProps {
-  mask: boolean
-  inputKey: string
-  type: 'numeric' | 'alphanumeric'
-}
-
-interface PinInputFieldProps<T>
-  extends Omit<
-    React.ComponentPropsWithoutRef<'input'>,
-    keyof _PinInputFieldProps
-  > {
-  component?: T
-}
-
-const PinInputFieldNoRef = <T extends React.ElementType = 'input'>(
-  {
-    className,
-    component,
-    ...props
-  }: PinInputFieldProps<T> &
-    (React.ComponentType<T> extends undefined
-      ? never
-      : React.ComponentProps<T>),
-  ref: React.ForwardedRef<HTMLInputElement>
-) => {
-  const { mask, type, inputKey, ...rest } = props as _PinInputFieldProps &
-    React.ComponentProps<T>
-
-  // Check if PinInputField is used within PinInput
-  const isInsidePinInput = React.useContext(PinInputContext)
-  if (!isInsidePinInput) {
-    throw new Error(
-      `PinInputField must be used within ${PinInput.displayName}.`
-    )
-  }
-
-  const Element = component || 'input'
-
-  return (
-    <Element
-      key={inputKey}
-      ref={ref}
-      type={mask ? 'password' : type === 'numeric' ? 'tel' : 'text'}
-      inputMode={type === 'numeric' ? 'numeric' : 'text'}
-      className={cn('size-10 text-center', className)}
-      {...rest}
-    />
-  )
-}
-
-const PinInputField = React.forwardRef(PinInputFieldNoRef) as <
-  T extends React.ElementType = 'input',
->(
-  {
-    className,
-    component,
-    ...props
-  }: PinInputFieldProps<T> & React.ComponentProps<T>,
-  ref: React.ForwardedRef<HTMLInputElement>
-) => JSX.Element
 
 /* ========== usePinInput custom hook ========== */
 
@@ -266,29 +211,11 @@ const usePinInput = ({
   length,
   readOnly,
 }: UsePinInputProps) => {
-  const pinInputs = React.useMemo(
-    () =>
-      Array.from({ length }, (_, index) =>
-        defaultValue
-          ? defaultValue.charAt(index)
-          : value
-            ? value.charAt(index)
-            : ''
-      ),
-    [defaultValue, length, value]
+  const pinInputs = Array.from({ length }, (_, index) =>
+    defaultValue ? defaultValue.charAt(index) : value ? value.charAt(index) : ''
   )
-
   const [pins, setPins] = React.useState<(string | number)[]>(pinInputs)
   const pinValue = pins.join('').trim()
-
-  /**
-   * Update pins when values changes.
-   * This is necessary and this allows pins to be synced
-   * when the value is update or reset programmatically
-   */
-  React.useEffect(() => {
-    setPins(pinInputs)
-  }, [pinInputs])
 
   const itemsRef = React.useRef<Map<number, HTMLInputElement> | null>(null)
 
@@ -443,21 +370,4 @@ const usePinInput = ({
   }
 }
 
-/* ========== Util Func ========== */
-
-const getValidChildren = (children: React.ReactNode) =>
-  React.Children.toArray(children).filter((child) => {
-    if (React.isValidElement(child)) {
-      return React.isValidElement(child)
-    }
-    throw new Error(`${PinInput.displayName} contains invalid children.`)
-  }) as React.ReactElement[]
-
-const getInputFieldCount = (children: React.ReactNode) =>
-  React.Children.toArray(children).filter((child) => {
-    if (React.isValidElement(child) && child.type === PinInputField) {
-      return React.isValidElement(child)
-    }
-  }).length
-
-export { PinInput, PinInputField }
+export { PinInputOg }

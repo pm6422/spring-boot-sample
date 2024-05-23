@@ -1,5 +1,5 @@
 import { UserAuthForm } from './components/user-auth-form'
-import ViteLogo from '@/assets/vite.svg'
+import ViteLogo from 'Frontend/src/assets/vite.svg'
 
 export default function SignIn() {
   return (
