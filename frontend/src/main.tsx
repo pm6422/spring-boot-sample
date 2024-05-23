@@ -5,7 +5,7 @@ import { ThemeProvider } from 'Frontend/src/components/theme-provider'
 import router from 'Frontend/src/router'
 import 'Frontend/src/index.css'
 
-export default function App() {
+export default function Main() {
     return <React.StrictMode>
                 <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
                     <RouterProvider router={router} />
