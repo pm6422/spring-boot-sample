@@ -5,7 +5,6 @@ import { nord } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { Layout, LayoutBody, LayoutHeader } from 'Frontend/src/components/custom/layout'
 import { Breadcrumb, BreadcrumbItem } from 'Frontend/src/components/custom/breadcrumb'
-import { PinInput, PinInputField } from 'Frontend/src/components/custom/pin-input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'Frontend/src/components/ui/tabs'
 import { Separator } from 'Frontend/src/components/ui/separator'
 import { Input } from 'Frontend/src/components/ui/input'
@@ -57,109 +56,7 @@ export default function ExtraComponents() {
         </Breadcrumb>
         <Breadcrumb>{items}</Breadcrumb>
 
-        <Separator />
 
-        <h2 className='text-lg font-bold md:text-xl'>Pin Input</h2>
-        <div className='flex flex-col gap-12 lg:flex-row'>
-          <div className='flex-1'>
-            <h3 className='mb-2 font-medium'>Uncontrolled</h3>
-            <Tabs defaultValue='preview'>
-              <TabsList>
-                <TabsTrigger value='preview'>Preview</TabsTrigger>
-                <TabsTrigger value='code'>Code</TabsTrigger>
-              </TabsList>
-              <TabsContent value='preview'>
-                <div className='flex min-h-56 items-center justify-center rounded border'>
-                  <PinInput
-                    className='flex h-10 space-x-4'
-                    onComplete={(str) => console.log('completed', str)}
-                    autoFocus
-                  >
-                    <PinInputField component={Input} />
-                    <PinInputField component={Input} />
-                    <Separator orientation='vertical' />
-                    <PinInputField component={Input} />
-                    <PinInputField component={Input} />
-                  </PinInput>
-                </div>
-              </TabsContent>
-              <TabsContent value='code'>
-                <SyntaxHighlighter
-                  language='tsx'
-                  style={nord}
-                  wrapLines
-                  wrapLongLines
-                >
-                  {`<PinInput
-  className='flex h-10 space-x-4'
-  defaultValue=''
-  onComplete={(str) => 
-    console.log('completed', str)
-  }  
-  autoFocus
->
-  <PinInputField component={Input} />
-  <PinInputField component={Input} />
-  <Separator orientation='vertical' />
-  <PinInputField component={Input} />
-  <PinInputField component={Input} />
-</PinInput>
-`}
-                </SyntaxHighlighter>
-              </TabsContent>
-            </Tabs>
-          </div>
-          <div className='flex-1'>
-            <h3 className='mb-2 font-medium'>Controlled</h3>
-            <Tabs defaultValue='preview'>
-              <TabsList>
-                <TabsTrigger value='preview'>Preview</TabsTrigger>
-                <TabsTrigger value='code'>Code</TabsTrigger>
-              </TabsList>
-              <TabsContent value='preview'>
-                <div className='flex min-h-56 items-center justify-center rounded border'>
-                  <PinInput
-                    className='flex h-10 space-x-4'
-                    value={pinInput}
-                    onChange={setPinInput}
-                    onComplete={(str) => console.log('completed', str)}
-                  >
-                    {Array.from({ length: 4 }, (_, i) => (
-                      <PinInputField key={i} component={Input} />
-                    ))}
-                  </PinInput>
-                </div>
-              </TabsContent>
-              <TabsContent value='code'>
-                <SyntaxHighlighter
-                  language='tsx'
-                  style={nord}
-                  wrapLines
-                  wrapLongLines
-                >
-                  {`function ControlledPinInput() {
-  const [pinInput, setPinInput] = useState('');
-
-  return (
-    <PinInput
-      className='flex h-10 space-x-4'
-      value={pinInput}
-      onChange={setPinInput}
-      onComplete={(str) => 
-        console.log('completed', str)
-      }
-    >
-      {Array.from({ length: 4 }, (_, i) => (
-        <PinInputField key={i} component={Input} />
-      ))}
-    </PinInput>
-  )
-}`}
-                </SyntaxHighlighter>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
       </LayoutBody>
     </Layout>
   )
