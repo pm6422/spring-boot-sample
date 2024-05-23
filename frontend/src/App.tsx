@@ -7,10 +7,10 @@ import 'Frontend/src/index.css'
 
 export default function App() {
     return <React.StrictMode>
-        <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-            <RouterProvider router={router} />
-            <Toaster />
-        </ThemeProvider>
-    </React.StrictMode>;
+                <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+                    <RouterProvider router={router} />
+                    <Toaster />
+                </ThemeProvider>
+            </React.StrictMode>;
 }
 
