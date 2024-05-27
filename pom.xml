@@ -15,7 +15,14 @@
     <properties>
         <hilla.version>2.5.7</hilla.version>
         <java.version>21</java.version>
+        <jib.arch>amd64</jib.arch>
+        <jib.goal>dockerBuild</jib.goal>
+        <jib.image.version>latest</jib.image.version>
+        <jib.registry.password/>
+        <jib.registry.url/>
+        <jib.registry.username/>
         <luix_commons_version>1.2.4.0</luix_commons_version>
+        <start-class>cn.luixtech.springbootsample.SpringBootSampleApplication</start-class>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -97,10 +104,72 @@
     </build>
     <profiles>
         <profile>
-            <!-- Production mode is activated using -Pproduction -->
-            <id>production</id>
+            <id>release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <configuration>
+                            <from>
+                                <image>eclipse-temurin:21-jre-jammy</image>
+                                <platforms>
+                                    <platform>
+                                        <architecture>${jib.arch}</architecture>
+                                        <os>linux</os>
+                                    </platform>
+                                </platforms>
+                            </from>
+                            <to>
+                                <image>${jib.registry.url}${project.artifactId}:${jib.image.version}</image>
+                                <auth>
+                                    <username>${jib.registry.username}</username>
+                                    <password>${jib.registry.password}</password>
+                                </auth>
+                            </to>
+                            <container>
+                                <entrypoint>
+                                    <shell>bash</shell>
+                                    <option>-c</option>
+                                    <arg>/entrypoint.sh</arg>
+                                </entrypoint>
+                                <environment>
+                                    <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+                                    <SLEEP_TIME>1</SLEEP_TIME>
+                                    <START_CLASS>${start-class}</START_CLASS>
+                                    <TZ>Asia/Shanghai</TZ>
+                                </environment>
+                                <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                                <user>root</user>
+                            </container>
+                            <allowInsecureRegistries>true</allowInsecureRegistries>
+                            <extraDirectories>
+                                <paths>
+                                    <path>src/main/jib</path>
+                                </paths>
+                                <permissions>
+                                    <permission>
+                                        <file>/entrypoint.sh</file>
+                                        <mode>755</mode>
+                                    </permission>
+                                    <permission>
+                                        <file>/arthas-run.sh</file>
+                                        <mode>755</mode>
+                                    </permission>
+                                </permissions>
+                            </extraDirectories>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build</id>
+                                <goals>
+                                    <goal>${jib.goal}</goal>
+                                </goals>
+                                <phase>compile</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>dev.hilla</groupId>
                         <artifactId>hilla-maven-plugin</artifactId>
