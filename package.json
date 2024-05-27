@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "docker:build": "./mvnw compile -ntp deploy -DskipTests -Prelease"
+    "docker:build": "./mvnw compile -ntp package -DskipTests -Prelease"
   },
   "dependencies": {
     "@hilla/form": "2.5.7",
