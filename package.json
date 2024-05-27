@@ -1,5 +1,5 @@
 {
-  "name": "shadcn-admin",
+  "name": "spring-boot-sample",
   "private": true,
   "version": "1.0.0-beta.2",
   "type": "module",
@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
+    "app:up": "docker compose -f docker/app.yml up --wait",
     "docker:build": "./mvnw compile -ntp package -DskipTests -Prelease"
   },
   "dependencies": {
