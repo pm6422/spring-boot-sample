@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "app:up": "docker compose -f docker/app.yml up --wait",
-    "docker:build": "./mvnw compile -ntp package -DskipTests -Prelease"
+    "docker:build": "./mvnw compile -ntp package -DskipTests -Prelease",
+    "app:up": "docker compose -f docker/app.yml up --wait"
   },
   "dependencies": {
     "@hilla/form": "2.5.7",
