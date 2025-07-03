@@ -21,7 +21,7 @@
         <jib.registry.password/>
         <jib.registry.url/>
         <jib.registry.username/>
-        <luix_commons_version>1.2.4.2</luix_commons_version>
+        <luix_commons_version>1.2.4.3</luix_commons_version>
         <start-class>cn.luixtech.springbootsample.SpringBootSampleApplication</start-class>
     </properties>
     <dependencyManagement>
