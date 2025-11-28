@@ -23,11 +23,27 @@
         <luix_commons_version>4.0.0.0</luix_commons_version>
         <start-class>cn.luixtech.springbootsample.SpringBootSampleApplication</start-class>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.luixtech</groupId>
+                <artifactId>luix-dependencies-bom</artifactId>
+                <version>4.0.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>com.luixtech</groupId>
             <artifactId>luix-springboot4-framework</artifactId>
             <version>${luix_commons_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
