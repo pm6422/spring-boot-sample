@@ -21,6 +21,7 @@
         <jib.registry.url/>
         <jib.registry.username/>
         <luix_commons_version>4.0.0.0</luix_commons_version>
+        <spring_boot_version>4.0.0</spring_boot_version>
         <start-class>cn.luixtech.springbootsample.SpringBootSampleApplication</start-class>
     </properties>
     <dependencyManagement>
@@ -58,21 +59,24 @@
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
                 <version>4.0.0</version>
+                <inherited>true</inherited>
                 <configuration>
                     <sortProperties>true</sortProperties>
                     <nrOfIndentSpace>4</nrOfIndentSpace>
                     <sortDependencies>groupId,artifactId</sortDependencies>
-                    <!--                    <sortPlugins>groupId,artifactId</sortPlugins>-->
+                    <sortPlugins>groupId,artifactId</sortPlugins>
                     <keepBlankLines>false</keepBlankLines>
                     <expandEmptyElements>false</expandEmptyElements>
                     <createBackupFile>false</createBackupFile>
+                    <sortExecutions>true</sortExecutions>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>sort</id>
                         <goals>
                             <goal>sort</goal>
                         </goals>
-                        <phase>verify</phase>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -85,9 +89,16 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.42</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring_boot_version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
